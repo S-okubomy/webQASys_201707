@@ -34,16 +34,6 @@ public class QueGetDataUnit {
 	public static final String SEIKAI = "T";
 	public static final String FUSEIKAI = "F";
 
-	public static void main(String[] args) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
-
-		QueGetDataUnit mainGetJitsuDate = new QueGetDataUnit();
-		String[] args1 = new String[2];
-		args1[0] = "新宿駅はどこにありますか？";
-		
-		mainGetJitsuDate.getJitsuDate(args1);
-	}
-
 	public List<AnsModelDto> getJitsuDate(String[] args) throws Exception {
 
 		

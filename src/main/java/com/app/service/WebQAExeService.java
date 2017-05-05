@@ -19,13 +19,6 @@ public class WebQAExeService {
     public static final int resultKensuQue = 5;
     public static final int resultKensuAns = 10;
     
-    public static void main(String[] args) throws Exception {
-        
-        WebQAExeService webQAExe = new WebQAExeService();
-        String[] question = new String[1];
-        question[0] = "宮崎駅はどこにありますか？";
-        webQAExe.getWebQA(question);
-    }
     
     public ResultQAModelDto getWebQA(String[] question) throws Exception {
         

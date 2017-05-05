@@ -39,15 +39,6 @@ public class AnsGetDataUnit {
 	private static final int maxHtmlListSize = 5;
 	
 
-	public static void main(String[] args) throws Exception {
-
-		AnsGetDataUnit mainGetJitsuDate = new AnsGetDataUnit();
-
-		String[] args1 = new String[2];
-	    args1[0] = "新宿駅はどこにありますか？";
-		mainGetJitsuDate.getJitsuDate(args1);
-	}
-
 	public List<AnsModelDto> getJitsuDate(String[] args) throws Exception {
 
 		//データ取得先 URL指定
