@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <h4>質問タイプ： </h4>
+    <table class="table table-striped table-bordered table-condensed">
+        <tr>
+            <th>質問分類</th>
+            <th>fx</th>
+            <th>文章:</th>
+        </tr>
+        <tr th:each="resultQueType : ${resultQADto.resultQueTypeList}">
+            <td th:text="${resultQueType.ansBunrui}"></td>
+            <td th:text="${#numbers.formatDecimal(resultQueType.fxValue,1,2,'DEFAULT')}"></td>
+            <td th:text="${resultQueType.ansSentence}"></td>
+        </tr>
+    </table>
+    
+    <h4>回答： </h4>
+    <table class="table table-striped table-bordered table-condensed">
+        <tr>
+            <th>回答分類</th>
+            <th>fx</th>
+            <th>文章:</th>
+        </tr>
+        <tr th:each="resultAns : ${resultQADto.resultAnsList}">
+            <td th:text="${resultAns.ansBunrui}"></td>
+            <td th:text="${#numbers.formatDecimal(resultAns.fxValue,1,2,'DEFAULT')}"></td>
+            <td th:text="${resultAns.ansSentence}"></td>
+        </tr>
+    </table>
+</html>
+      
