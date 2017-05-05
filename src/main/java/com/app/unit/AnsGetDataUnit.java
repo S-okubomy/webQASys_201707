@@ -1,6 +1,7 @@
 package com.app.unit;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,9 +59,12 @@ public class AnsGetDataUnit {
 		
         // Projectのトップディレクトリパス取得
         String folderName = System.getProperty("user.dir");
+        // OSによりパスの区切り文字を設定する。
+//        String fs = File.separator;
+        
         // トップディレクトリパス以降を設定
-        String inputFolderName = folderName + "\\src\\main\\resources\\inputFile\\";
-        String outputFolderName = folderName + "\\src\\main\\resources\\outputFile\\";
+        String inputFolderName = folderName + "/src/main/resources/inputFile/";
+        String outputFolderName = folderName + "/src/main/resources/outputFile/";
 
 		//重み係数の読み込み
 		String csvWeightValueFileInput = inputFolderName + "ans_outWeightValue.csv";

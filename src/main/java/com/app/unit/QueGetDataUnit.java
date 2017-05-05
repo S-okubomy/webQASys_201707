@@ -40,7 +40,7 @@ public class QueGetDataUnit {
         // Projectのトップディレクトリパス取得
         String folderName = System.getProperty("user.dir");
         // トップディレクトリパス以降を設定
-        String inputFolderName = folderName + "\\src\\main\\resources\\inputFile\\";
+        String inputFolderName = folderName + "/src/main/resources/inputFile/";
 
 		//重み係数の読み込み
 		String csvWeightValueFileInput = inputFolderName + "que_outWeightValue.csv";
