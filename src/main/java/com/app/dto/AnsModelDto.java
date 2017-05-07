@@ -19,6 +19,9 @@ public class AnsModelDto implements Serializable {
 	/** 応答文章 */
 	private String ansSentence;
 	
+	/** HTMLパス */
+    private String htmlPath;
+	
 	/** 決定関数値 */
     private double fxValue;
 
@@ -41,6 +44,10 @@ public class AnsModelDto implements Serializable {
     public void setFxValue(double fxValue){
         this.fxValue = fxValue;
     }
+    
+    public void setHtmlPath(String htmlPath){
+        this.htmlPath = htmlPath;
+    }
 
 	public String getAnsNo() {
 		return this.ansNo;
@@ -60,6 +67,10 @@ public class AnsModelDto implements Serializable {
 	
     public double getFxValue() {
         return this.fxValue;
+    }
+    
+    public String getHtmlPath() {
+        return this.htmlPath;
     }
 
 }

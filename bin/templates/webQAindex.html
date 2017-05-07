@@ -23,6 +23,10 @@
                  background-color: transparent;
   
       }
+      a.ansHtmlPath {
+                        color: blue;
+                        text-decoration:underline; 
+      }
       -->
     </style>
     <link rel="stylesheet" href="/css/style.css" type="text/css" />
@@ -222,7 +226,8 @@
                 <tr th:each="resultAns : ${resultQADto.resultAnsList}">
                     <td th:text="${resultAns.ansBunrui}"></td>
                     <td th:text="${#numbers.formatDecimal(resultAns.fxValue,1,2,'DEFAULT')}"></td>
-                    <td th:text="${resultAns.ansSentence}"></td>
+                    <td><a class="ansHtmlPath" href="" th:href="@{${resultAns.htmlPath}}" target="_blank"
+                          th:text="${resultAns.ansSentence}">NODATA</a></td>
                 </tr>
               </table>
             </div> <!-- Ajaxで画面更新2 END行-->

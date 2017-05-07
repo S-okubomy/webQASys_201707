@@ -92,26 +92,26 @@ public class AnsGetDataUnit {
 
 		try{
             int cntHtmlList = 0;
+            Pattern p = Pattern.compile("[。.]+");
 			for(String studyHtml : studyHtmlList) {
 				matcherUrl = pUrl.matcher(studyHtml);
 				if (!matcherUrl.find()) {
 					//URLにアクセス
 					Document document = Jsoup.connect(studyHtml).get();
 					//ネット情報を分割して配列に
-					Pattern p = Pattern.compile("[。.]+");
 					String[] rsltNetInfo = p.split(document.text());
-						for (int iCount =0; iCount < rsltNetInfo.length; iCount++) {
-						    // 正規表現でフィルター（文章の前後にスペースを含む行を除く    "^\\x01-\\x7E"で1バイト文字以外を探す）
-						    // 上記以外の文章を対象にする。
-						    if (!rsltNetInfo[iCount]
-						            .matches(".*([a-zA-Z0-9]|[^\\x01-\\x7E]).*\\ ([a-zA-Z0-9]|[^\\x01-\\x7E]).*")) {
-	                            sujoVector = getSujoVector(soseiVecterSakuseiMap, rsltNetInfo[iCount]);
-	                            // 振り分け結果を出力
-	                            outFuriwakeResult(sujoVector, weightValueMap, gaResultArray
-	                                    , rsltNetInfo[iCount], newFileStream, ansModelList);
-						    }
-						}
-						cntHtmlList++;
+					for (int iCount =0; iCount < rsltNetInfo.length; iCount++) {
+					    // 正規表現でフィルター（文章の前後にスペースを含む行を除く    "^\\x01-\\x7E"で1バイト文字以外を探す）
+					    // 5文字以上、上記以外の文章を対象にする。
+					    if (5 <= rsltNetInfo[iCount].length() && !rsltNetInfo[iCount]
+					            .matches(".*([a-zA-Z0-9]|[^\\x01-\\x7E]).*\\ ([a-zA-Z0-9]|[^\\x01-\\x7E]).*")) {
+                            sujoVector = getSujoVector(soseiVecterSakuseiMap, rsltNetInfo[iCount]);
+                            // 振り分け結果を出力
+                            outFuriwakeResult(sujoVector, weightValueMap, gaResultArray
+                                    , rsltNetInfo[iCount], newFileStream, ansModelList, studyHtml);
+					    }
+					}
+					cntHtmlList++;
 				}
 				if (maxHtmlListSize <= cntHtmlList) {
 				    break; // 最大検索サイト数以上になったらブレーク
@@ -127,15 +127,15 @@ public class AnsGetDataUnit {
 				    newFileStream.close();
 				    
 		            Collections.sort(ansModelList, new SortAnsModelList());
-		            System.out.println("並び替え後");
-		            // 正規表現でフィルター（文章の前後にスペースを含む行を除く    "^\\x01-\\x7E"で1バイト文字以外を探す）
-		            ansModelList.stream()
-		                        .filter(ansModel -> !ansModel.getAnsSentence()
-		                                .matches(".*([a-zA-Z0-9]|[^\\x01-\\x7E]).*\\ ([a-zA-Z0-9]|[^\\x01-\\x7E]).*"))
-		                        .forEach(ansModel -> System.out.println("回答分類: " + ansModel.getAnsBunrui() 
-		                                    + " fx= " + ansModel.getFxValue() 
-		                                    + " 文章: " + ansModel.getAnsSentence()));
-					System.out.println("出力完了");
+//		            System.out.println("並び替え後");
+//		            // 正規表現でフィルター（文章の前後にスペースを含む行を除く    "^\\x01-\\x7E"で1バイト文字以外を探す）
+//		            ansModelList.stream()
+//		                        .filter(ansModel -> !ansModel.getAnsSentence()
+//		                                .matches(".*([a-zA-Z0-9]|[^\\x01-\\x7E]).*\\ ([a-zA-Z0-9]|[^\\x01-\\x7E]).*"))
+//		                        .forEach(ansModel -> System.out.println("回答分類: " + ansModel.getAnsBunrui() 
+//		                                    + " fx= " + ansModel.getFxValue() 
+//		                                    + " 文章: " + ansModel.getAnsSentence()));
+					System.out.println("回答抽出完了");
 					
 					return ansModelList;
 				}
@@ -158,7 +158,7 @@ public class AnsGetDataUnit {
 	private void outFuriwakeResult(String[] sujoVector
 	        , LinkedHashMap<String,String[]> weightValueMap, String[] gaResultArray
 	        , String rsltSentence, BufferedWriter newFileStream
-	        , List<AnsModelDto> ansModelList) throws IOException {
+	        , List<AnsModelDto> ansModelList, String htmlPath) throws IOException {
         // 振り分け結果を出力
         for (String key : weightValueMap.keySet()) {
              //配列を作りなおし
@@ -171,7 +171,7 @@ public class AnsGetDataUnit {
                                            , Double.parseDouble(gaResultArray[3]));
            
            if (SEIKAI.equals(studyModelDto.getHanteiJoho()) 
-                   && studyModelDto.getFxValue() > 10.0) {
+                   && studyModelDto.getFxValue() > 5.0) {
                //ファイルへの書き込み
 //               System.out.println("該当あり    回答分類: " + weightValueMap.get(key)[0] + " fx= " + studyModelDto.getFxValue() 
 //                                   + " 文章: " + rsltSentence);
@@ -186,6 +186,7 @@ public class AnsGetDataUnit {
                ansModelDto.setAnsBunrui(weightValueMap.get(key)[0]);
                ansModelDto.setFxValue(studyModelDto.getFxValue());
                ansModelDto.setAnsSentence(rsltSentence);
+               ansModelDto.setHtmlPath(htmlPath);
                ansModelList.add(ansModelDto);
                
            } else {
