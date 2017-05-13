@@ -22,6 +22,8 @@ public class WebQAExeService {
     
     public ResultQAModelDto getWebQA(String[] question) throws Exception {
         
+        long startQAsys = System.currentTimeMillis();
+        
         // 最終結果格納用Dto
         ResultQAModelDto resultQAModelDto = new ResultQAModelDto();
         
@@ -60,6 +62,10 @@ public class WebQAExeService {
                                 + " fx= " + ansModel.getFxValue() 
                                 + " 文章: " + ansModel.getAnsSentence()));
         System.out.println("出力完了");
+        
+        long endQAsys = System.currentTimeMillis();
+        long intervalQAsys = endQAsys - startQAsys;
+        System.out.println(intervalQAsys + "ミリ秒  QAsys処理時間");
         
         return resultQAModelDto;
     }

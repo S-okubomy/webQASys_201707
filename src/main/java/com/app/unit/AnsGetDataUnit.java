@@ -20,6 +20,7 @@ import net.java.sen.dictionary.Token;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import com.app.dto.AnsModelDto;
 import com.app.dto.InitDto;
@@ -42,12 +43,16 @@ public class AnsGetDataUnit {
 
 	public List<AnsModelDto> getJitsuDate(String[] args) throws Exception {
 
+	    long startAns = System.currentTimeMillis();
+	    
 		//データ取得先 URL指定
 	    String reqUrl = "https://search.goo.ne.jp/web.jsp?MT=";
         
         String reqUrlAll = reqUrl + args[0] + "&mode=0&sbd=goo001&IE=UTF-8&OE=UTF-8";
         //学習先のHTMLリスト
         List<String> studyHtmlList = new ArrayList<String>();
+        
+        long startHtml = System.currentTimeMillis();
         studyHtmlList = GetNetInfoUtil.getStudyHtmlList(reqUrlAll);
 
 		System.out.println("以下、検索元URL");
@@ -82,6 +87,10 @@ public class AnsGetDataUnit {
 		//出力ファイル
 		String strOutputFile = outputFolderName + "outputJitsuForAns.txt";
 		BufferedWriter newFileStream = new BufferedWriter(new FileWriter(strOutputFile));
+		
+        long endHtml = System.currentTimeMillis();
+        long intervalHtml = endHtml - startHtml;
+        System.out.println(intervalHtml + "ミリ秒  html");
 
 		Pattern pUrl = Pattern.compile("(.pdf)");
 		Matcher matcherUrl;
@@ -97,13 +106,21 @@ public class AnsGetDataUnit {
 				matcherUrl = pUrl.matcher(studyHtml);
 				if (!matcherUrl.find()) {
 					//URLにアクセス
+				    
+				    long start = System.currentTimeMillis();
 					Document document = Jsoup.connect(studyHtml).get();
+					Elements elementP = document.select("p");
+					long end = System.currentTimeMillis();
+					long interval = end - start;
+					System.out.println(interval + "ミリ秒  Jsop");
 					//ネット情報を分割して配列に
-					String[] rsltNetInfo = p.split(document.text());
+					
+					long start2 = System.currentTimeMillis();
+					String[] rsltNetInfo = p.split(elementP.text());
 					for (int iCount =0; iCount < rsltNetInfo.length; iCount++) {
 					    // 正規表現でフィルター（文章の前後にスペースを含む行を除く    "^\\x01-\\x7E"で1バイト文字以外を探す）
 					    // 5文字以上、上記以外の文章を対象にする。
-					    if (5 <= rsltNetInfo[iCount].length() && !rsltNetInfo[iCount]
+					    if (15 <= rsltNetInfo[iCount].length() && !rsltNetInfo[iCount]
 					            .matches(".*([a-zA-Z0-9]|[^\\x01-\\x7E]).*\\ ([a-zA-Z0-9]|[^\\x01-\\x7E]).*")) {
                             sujoVector = getSujoVector(soseiVecterSakuseiMap, rsltNetInfo[iCount]);
                             // 振り分け結果を出力
@@ -112,6 +129,10 @@ public class AnsGetDataUnit {
 					    }
 					}
 					cntHtmlList++;
+					
+	                long end2 = System.currentTimeMillis();
+	                long interval2 = end2 - start2;
+	                System.out.println(interval2 + "ミリ秒  振り分け");
 				}
 				if (maxHtmlListSize <= cntHtmlList) {
 				    break; // 最大検索サイト数以上になったらブレーク
@@ -127,15 +148,11 @@ public class AnsGetDataUnit {
 				    newFileStream.close();
 				    
 		            Collections.sort(ansModelList, new SortAnsModelList());
-//		            System.out.println("並び替え後");
-//		            // 正規表現でフィルター（文章の前後にスペースを含む行を除く    "^\\x01-\\x7E"で1バイト文字以外を探す）
-//		            ansModelList.stream()
-//		                        .filter(ansModel -> !ansModel.getAnsSentence()
-//		                                .matches(".*([a-zA-Z0-9]|[^\\x01-\\x7E]).*\\ ([a-zA-Z0-9]|[^\\x01-\\x7E]).*"))
-//		                        .forEach(ansModel -> System.out.println("回答分類: " + ansModel.getAnsBunrui() 
-//		                                    + " fx= " + ansModel.getFxValue() 
-//		                                    + " 文章: " + ansModel.getAnsSentence()));
 					System.out.println("回答抽出完了");
+					
+			        long endAns = System.currentTimeMillis();
+			        long intervalAns = endAns - startAns;
+			        System.out.println(intervalAns + "ミリ秒  Ans");
 					
 					return ansModelList;
 				}
