@@ -1,25 +1,16 @@
 package com.app.unit;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.java.sen.SenFactory;
 import net.java.sen.StringTagger;
 import net.java.sen.dictionary.Token;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 import com.app.dto.AnsModelDto;
-import com.app.dto.InitDto;
 import com.app.dto.StudyModelDto;
 import com.app.util.ReadFileUtil;
 import com.app.util.SelectWordUtil;
@@ -62,6 +53,11 @@ public class QueGetDataUnit {
         List<AnsModelDto> ansModelList = new ArrayList<AnsModelDto>();
 
 		for (String key : weightValueMap.keySet()) {
+		    
+		    // タイトルラベルは読み飛ばす
+		    if ("質問分類".equals(weightValueMap.get(key)[0])) {
+		        continue;
+		    }
 		      //配列を作りなおし
 	        String[] weightValueMapArray = new String[weightValueMap.get(key).length -1];
 	        for(int ii = 0; ii < weightValueMap.get(key).length -1; ii++) {

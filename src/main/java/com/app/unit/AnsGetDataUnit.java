@@ -178,6 +178,11 @@ public class AnsGetDataUnit {
 	        , List<AnsModelDto> ansModelList, String htmlPath) throws IOException {
         // 振り分け結果を出力
         for (String key : weightValueMap.keySet()) {
+            // タイトルラベルは読み飛ばす
+            if ("質問分類".equals(weightValueMap.get(key)[0])) {
+                continue;
+            }
+            
              //配列を作りなおし
            String[] weightValueMapArray = new String[weightValueMap.get(key).length -1];
            for(int ii = 0; ii < weightValueMap.get(key).length -1; ii++) {
