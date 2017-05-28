@@ -268,9 +268,9 @@ public class AnsGetDataUnit {
         }
 
         // 以下、素性ベクトル作成
-        String[] tmpOneGramTitle = new String(oneGramTitle).split(",");
-        String[] tmpTwoGramTitle = new String(twoGramTitle).split(",");
-        String[] tmpTangoHinshiGramTitle = new String(tangoHinshi).split(",");
+        String[] tmpOneGramTitle = oneGramTitle.toString().split(",");
+        String[] tmpTwoGramTitle = twoGramTitle.toString().split(",");
+        String[] tmpTangoHinshiGramTitle = tangoHinshi.toString().split(",");
         StringBuilder tmpRenketsu;
 
         String studyLine = strNetInfo;
@@ -301,7 +301,7 @@ public class AnsGetDataUnit {
                 tmpRenketsu = new StringBuilder();
                 tmpRenketsu.append(tokens.get(i).getSurface()); // 1単語目の出力
                 tmpRenketsu.append(tokens.get(i + 1).getSurface()); // 連結 2単語目の出力
-                if (twoGram.equals(new String(tmpRenketsu))) {
+                if (twoGram.equals(tmpRenketsu.toString())) {
                     twoGramSujoVector.append("1,");
                     isVectorFlag = true;
                     break;
@@ -321,7 +321,7 @@ public class AnsGetDataUnit {
                 tmpRenketsu.append(tokens.get(i).getSurface()); // 1単語目の出力
                 tmpRenketsu.append("/");
                 tmpRenketsu.append(SelectWordUtil.selectWord(tokens.get(i+1).getMorpheme().getPartOfSpeech(), "", "-"));  // 連結 2単語目の出力
-                if (TangoHinshiGram.equals(new String(tmpRenketsu))) {
+                if (TangoHinshiGram.equals(tmpRenketsu.toString())) {
                     tangoHinshiSujoVector.append("1,");
                     isVectorFlag = true;
                     break;
@@ -338,7 +338,7 @@ public class AnsGetDataUnit {
         allSujoVector.append(twoGramSujoVector);
         allSujoVector.append(twoGramSujoVector);
 
-        return new String(allSujoVector).split(",");
+        return allSujoVector.toString().split(",");
 	}
 
 
