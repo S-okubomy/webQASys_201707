@@ -1,5 +1,14 @@
 package com.app.util;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.app.util.GetHinshiUtil.HINSHI_NOTUSE_NETINFO;
+
+import net.java.sen.SenFactory;
+import net.java.sen.StringTagger;
+import net.java.sen.dictionary.Token;
 
 public class SelectWordUtil {
 
@@ -88,6 +97,36 @@ public class SelectWordUtil {
 		}
 
 	}
+	
+	public static String getSplitWord(String str) throws IOException {
+	    
+       StringTagger tagger = SenFactory.getStringTagger(null);
+       List<Token> tokens = new ArrayList<Token>();
+       tagger.analyze(str, tokens);
+       
+       StringBuilder splitWord = new StringBuilder();
+       for (Token token : tokens) {
+           // 該当品詞の場合は、スペース区切りで文字列を結合する。
+           if (!isNotUseWord(token.getMorpheme().getPartOfSpeech())) {
+               splitWord.append(token.getSurface() + " ");
+           }
+       }
+       
+       return splitWord.toString();
+	}
+	
+	public static boolean isNotUseWord(String wordType) {
+	    for (HINSHI_NOTUSE_NETINFO hinshi : HINSHI_NOTUSE_NETINFO.values()) {
+	        // 使わない品詞の場合（文字列が存在する場合）は、Trueを設定してReturn
+	        if (-1 != wordType.indexOf(hinshi.name())) {
+	            return true;
+	        }
+	    }
+	    
+	    return false;
+	}
+	
+	
 
 
 	/**

@@ -48,7 +48,9 @@ public class AnsGetDataUnit {
 		//データ取得先 URL指定
 	    String reqUrl = "https://search.goo.ne.jp/web.jsp?MT=";
         
-        String reqUrlAll = reqUrl + args[0] + "&mode=0&sbd=goo001&IE=UTF-8&OE=UTF-8";
+	    String splitSerchWord = SelectWordUtil.getSplitWord(args[0]);
+	    
+        String reqUrlAll = reqUrl + splitSerchWord + "&mode=0&sbd=goo001&IE=UTF-8&OE=UTF-8";
         //学習先のHTMLリスト
         List<String> studyHtmlList = new ArrayList<String>();
         
@@ -121,7 +123,9 @@ public class AnsGetDataUnit {
 					    // 正規表現でフィルター（文章の前後にスペースを含む行を除く    "^\\x01-\\x7E"で1バイト文字以外を探す）
 					    // 5文字以上、上記以外の文章を対象にする。
 					    if (15 <= rsltNetInfo[iCount].length() && !rsltNetInfo[iCount]
-					            .matches(".*([a-zA-Z0-9]|[^\\x01-\\x7E]).*\\ ([a-zA-Z0-9]|[^\\x01-\\x7E]).*")) {
+					            .matches(".*([a-zA-Z0-9]|[^\\x01-\\x7E]).*\\ ([a-zA-Z0-9]|[^\\x01-\\x7E]).*")
+					            && !rsltNetInfo[iCount].matches(".*([a-zA-Z0-9/%\\-_:=?]{10,}).*")
+					            && !rsltNetInfo[iCount].matches(".*「追加する」ボタンを押してください.*")) {
                             sujoVector = getSujoVector(soseiVecterSakuseiMap, rsltNetInfo[iCount]);
                             // 振り分け結果を出力
                             outFuriwakeResult(sujoVector, weightValueMap, gaResultArray
