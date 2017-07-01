@@ -1,14 +1,14 @@
-.gradle
-/build/
-!gradle/wrapper/gradle-wrapper.jar
+#.gradle
+#/build/
+#!gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###
 .apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
+#.classpath
+#.factorypath
+#.project
+#.settings
+#.springBeans
 
 ### IntelliJ IDEA ###
 .idea
@@ -24,8 +24,8 @@ dist/
 nbdist/
 .nb-gradle/
 
-target
-.DS_Store
-.classpath
-.project
-.settings
+#target
+#.DS_Store
+#.classpath
+#.project
+#.settings
