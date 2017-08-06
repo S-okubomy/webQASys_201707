@@ -27,20 +27,35 @@
                         color: blue;
                         text-decoration:underline; 
       }
+      .container-fluid.jumbotron{
+        margin-top: 2px;
+        margin-bottom: 2px;
+      }
+      
       -->
+      
     </style>
     <link rel="stylesheet" href="/css/style.css" type="text/css" />
 
     <script>
       //<![CDATA[
+                 
+      var timer1;
+                 
       $(function() {
           // Ajax通信テスト ボタンクリック（2回目以降、documentにイベントハンドラ追加されるので「(document).on(..」を使う）
           $(document).on('submit', '#formGetData', function(event) {
+
 //          $('#formGetData').submit(function(event) {
               // HTMLでの送信をキャンセル（2重送信防止）
               event.preventDefault();
               // 入力エラーを削除
               $(".error-messages").text('');
+              
+              // プログレスバーを表示用
+              $('#modal_box').modal('show');
+              var count = 0;
+              progress(count);
               
               // 操作対象のフォーム要素を取得
               var $form = $(this);
@@ -62,7 +77,7 @@
                   // 応答後
                   complete: function(xhr, textStatus) {
                       // ボタンを有効化し、再送信を許可
-                	  $button.attr('disabled', false);
+                      $button.attr('disabled', false);
                   },
                   
                   success     : function(data) {
@@ -77,7 +92,12 @@
          
       // Ajax通信成功時処理
       function success(data) {
-//         alert("success:" + data);
+          
+         clearTimeout(timer1); // タイマー 解除
+        
+         $("#pgss1").css({'width':'100%'});
+         $('#modal_box').modal('hide');
+         
          var hasInputError = $(data).find('#errorFlag').val();
          if (1 == hasInputError) {
              // Ajaxで画面（INPUTエリアのみ更新）
@@ -92,6 +112,10 @@
         
       // Ajax通信失敗時処理
       function error(XMLHttpRequest, textStatus, errorThrown) {
+          clearTimeout(timer1); // タイマー 解除
+          $("#pgss1").css({'width':'100%'});
+          $('#modal_box').modal('hide');
+          
           alert("error:" + XMLHttpRequest);
           alert("status:" + textStatus);
           alert("errorThrown:" + errorThrown);
@@ -99,12 +123,25 @@
 
       $(function () {
           $(document).on('click', '#inputClearBtn', function(event) {
-    	    // テキストボックスへ値を設定します
-    	    $("#inputQueText").val('');
-    	  });
-    	});
+            // テキストボックスへ値を設定します
+            $("#inputQueText").val('');
+          });
+        });
+      
+      // プログレスバーを表示用
+      function progress(count){
+            timer1 = setTimeout(function(){ // タイマー 繰り返し
+            $("#pgss1").css({'width':count+'%'});
+            count=count+1;
+            if(count == 80) {
+                return;
+            }
+            progress(count);
+          },100);
+      }
+      
       //]]>
-        </script>
+     </script>
     </head>
     
     <body>
@@ -164,7 +201,7 @@
         </nav>
         
         <!-- 内容 ================================================== -->
-        <div class="container jumbotron">
+        <div class="container-fluid jumbotron">
           <h1>Web Answers 試作</h1>
           <p>...</p>
           
@@ -175,8 +212,8 @@
                     <fieldset>
                       <legend>質問を入力してください。</legend>
                       <div class="form-group">
-                        <label for="InputText" class="col-sm-2 control-label">質問</label>
-                        <div class="col-sm-10">
+                        <label for="InputText" class="control-label" style="margin:0 0 0 15px">質問</label>
+                        <div class="col-sm-12">
                           <input type="text" class="form-control" id="inputQueText" placeholder="質問入力欄" 
                                  value = "" th:field="*{inputQueText}"></input>
                           <span th:if="${#fields.hasErrors('inputQueText')}" th:errors="*{inputQueText}"
@@ -187,7 +224,7 @@
                       </div>
                       
                       <div class="form-group">
-                        <div class="col-sm-10 col-lg-offset-2">
+                        <div class="col-sm-12">
                           <button type="button" class="btn btn-default" id="inputClearBtn">クリア</button>
                           <button type="submit" class="btn btn-primary" id="btnAnswer">回答を探す</button>
                         </div>
@@ -233,5 +270,23 @@
               </table>
             </div> <!-- Ajaxで画面更新2 END行-->
         </div>
+        
+        
+        <!-- プログレスバーを表示するモーダル -->
+        <div class="modal fade" id="modal_box" data-target="#modal_box" data-backdrop="static">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title"> 回答作成中です。しばらくお待ちください。。。</h4>
+              </div>
+              <div class="modal-body">
+                <div class="progress progress-striped active">
+                  <div class="progress-bar progress-bar-info" id="pgss1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
     </body>
 </html>

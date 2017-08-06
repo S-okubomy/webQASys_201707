@@ -5,8 +5,8 @@
         <fieldset>
           <legend>質問を入力してください。</legend>
           <div class="form-group">
-            <label for="InputText" class="col-sm-2 control-label">質問</label>
-            <div class="col-sm-10">
+            <label for="InputText" class="control-label" style="margin:0 0 0 15px">質問</label>
+            <div class="col-sm-12">
               <input type="text" class="form-control" id="inputQueText" placeholder="質問入力欄" 
                      value = "" th:field="*{inputQueText}"></input>
               <span th:if="${#fields.hasErrors('inputQueText')}" th:errors="*{inputQueText}"
@@ -16,10 +16,8 @@
             </div>
           </div>
           
-        
-          
           <div class="form-group">
-            <div class="col-sm-10 col-lg-offset-2">
+            <div class="col-sm-12">
               <button type="button" class="btn btn-default" id="inputClearBtn">クリア</button>
               <button type="submit" class="btn btn-primary" id="btnAnswer">回答を探す</button>
             </div>
