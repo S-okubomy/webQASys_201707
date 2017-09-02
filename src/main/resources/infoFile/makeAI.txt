@@ -1,1 +1,11 @@
 2017/08/20
+ プログラムで規定された範囲を超えて、あらゆる状況に瞬間的に判断して行動できるコンピューターとなります,http://programming-study.com/language/ai-python/
+Watsonを使った簡単な性格診断アプリを作ってみましょう,https://matome.naver.jp/odai/2146258117550225501
+ これによって、コンピューターで分析した結果を新たなデータにあてはめることで、パターンにしたがって将来を予測したりすることができるようになります,http://www.sejuku.net/blog/7630
+  囲碁で人工知能がトッププロを破るといったニュースなどが話題になり、最近「人工知能」に対する関心が高まってきています,http://programming-study.com/language/ai-python/
+必要なコンピューター・リソースを減少させるための開発も進んでいる,http://jp.techcrunch.com/2017/01/20/20170119ai-software-is-figuring-out-how-to-best-humans-at-designing-new-ai-software/
+こうしたおかげで自分でライブラリを作るという手間を省くことができます,http://programming-study.com/language/ai-python/
+しかし同時にAIの普及が人間の努力を不要にするとかあらゆる分野で失業を増やすといった不安が根拠のないものであることも明らかだ,http://jp.techcrunch.com/2017/01/20/20170119ai-software-is-figuring-out-how-to-best-humans-at-designing-new-ai-software/
+もしかしたら、「人工知能なんか駄目だ」って台詞も聞いたことがあるかもしれない,https://matome.naver.jp/odai/2146258117550225501
+ 決められた課題をアルゴリズムに従って解決する、といったコンピューターです,http://programming-study.com/language/ai-python/
+ 「言語処理AI」「音声処理AI」「画像処理AI」など様々な種類の技術を、入門者向けに広くピックアップした,http://www.kyamaneko.com/entry/ai-eight-way-of-development-method
