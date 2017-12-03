@@ -12,6 +12,7 @@ import com.app.dto.AnsModelDto;
 import com.app.dto.ResultQAModelDto;
 import com.app.form.IndexForm;
 import com.app.service.CreateInfoService;
+import com.app.service.WebIndependExeService;
 import com.app.service.WebQAExeService;
 
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,9 @@ public class WebQaSysProtoController
 {
     @Autowired
     WebQAExeService webQAExeService;
+    
+    @Autowired
+    WebIndependExeService webIndependExeService;
     
     @Autowired
     CreateInfoService createInfoService;
@@ -369,6 +373,32 @@ public class WebQaSysProtoController
                 .getPyCreateInfo(question, "weather1.txt", "mailWeather.py");
         model.addAttribute("resultAnsList", resultAnsList);
         
+        model.addAttribute("questionWeb", question[0]);
+
+        return "infopage1";
+    }
+    
+    /**
+     * お金を稼ぐ方法を教えてください。
+     * @throws Exception 
+     */
+    @RequestMapping(value = "/getMoney", method = RequestMethod.GET)
+    public String getMoney(Locale locale, IndexForm indexForm, Model model) throws Exception {
+        logger.info("Welcome home! The client locale is {}.", locale);
+        
+        // 日付型を日本時間にする。
+        ZonedDateTime nowZonedDt = ZonedDateTime.now(ZoneId.of("Asia/Tokyo"));
+        Date dateJp = Date.from(nowZonedDt.toInstant());
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+        String fmtJpDate = fmt.format(dateJp);
+        model.addAttribute("serverTime", fmtJpDate);
+        
+        String[] question = new String[1];
+        question[0] = "お金を稼ぐ方法";
+        String independAnsKey = "getMoney";
+        List<AnsModelDto> resultAnsList = webIndependExeService.getWebQA(question, independAnsKey)
+                                              .getResultAnsList();
+        model.addAttribute("resultAnsList", resultAnsList);
         model.addAttribute("questionWeb", question[0]);
 
         return "infopage1";
