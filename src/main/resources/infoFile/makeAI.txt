@@ -1,11 +1,11 @@
-2017/08/20
- プログラムで規定された範囲を超えて、あらゆる状況に瞬間的に判断して行動できるコンピューターとなります,http://programming-study.com/language/ai-python/
-Watsonを使った簡単な性格診断アプリを作ってみましょう,https://matome.naver.jp/odai/2146258117550225501
- これによって、コンピューターで分析した結果を新たなデータにあてはめることで、パターンにしたがって将来を予測したりすることができるようになります,http://www.sejuku.net/blog/7630
-  囲碁で人工知能がトッププロを破るといったニュースなどが話題になり、最近「人工知能」に対する関心が高まってきています,http://programming-study.com/language/ai-python/
-必要なコンピューター・リソースを減少させるための開発も進んでいる,http://jp.techcrunch.com/2017/01/20/20170119ai-software-is-figuring-out-how-to-best-humans-at-designing-new-ai-software/
-こうしたおかげで自分でライブラリを作るという手間を省くことができます,http://programming-study.com/language/ai-python/
-しかし同時にAIの普及が人間の努力を不要にするとかあらゆる分野で失業を増やすといった不安が根拠のないものであることも明らかだ,http://jp.techcrunch.com/2017/01/20/20170119ai-software-is-figuring-out-how-to-best-humans-at-designing-new-ai-software/
-もしかしたら、「人工知能なんか駄目だ」って台詞も聞いたことがあるかもしれない,https://matome.naver.jp/odai/2146258117550225501
- 決められた課題をアルゴリズムに従って解決する、といったコンピューターです,http://programming-study.com/language/ai-python/
- 「言語処理AI」「音声処理AI」「画像処理AI」など様々な種類の技術を、入門者向けに広くピックアップした,http://www.kyamaneko.com/entry/ai-eight-way-of-development-method
+2018/04/29
+ 不適切な投稿でないことを報告しました,http://google.com/url?q=https://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q10183473830&sa=U&ved=0ahUKEwiZ7PXTu93aAhVDXLwKHRjlDZQQFgg5MAM&usg=AOvVaw25SQ178EWRulj61HKolTnb
+ 人工知能を歴史的に遡ると、1956年に開催されたダートマス会議まで遡ります,http://google.com/url?q=https://www.codexa.net/how-to-build-artificial-intelligence/&sa=U&ved=0ahUKEwiZ7PXTu93aAhVDXLwKHRjlDZQQFghQMAc&usg=AOvVaw2UNH4MpxGC8-sDcnQQcI2A
+ terapadで保存するときに、文字コードをHTMLタグで指定してある「UTF-8（BOMなし）」以外で保存してしまったせいでしょう,http://google.com/url?q=https://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q10183473830&sa=U&ved=0ahUKEwiZ7PXTu93aAhVDXLwKHRjlDZQQFgg5MAM&usg=AOvVaw25SQ178EWRulj61HKolTnb
+言葉で見ると、少しややこしいので、より具体的な例を使って機械学習をイメージしてみましょう,http://google.com/url?q=https://www.codexa.net/how-to-build-artificial-intelligence/&sa=U&ved=0ahUKEwiZ7PXTu93aAhVDXLwKHRjlDZQQFghQMAc&usg=AOvVaw2UNH4MpxGC8-sDcnQQcI2A
+ 少し煽りすぎましたが、話を元に戻しましょう,http://google.com/url?q=https://www.codexa.net/how-to-build-artificial-intelligence/&sa=U&ved=0ahUKEwiZ7PXTu93aAhVDXLwKHRjlDZQQFghQMAc&usg=AOvVaw2UNH4MpxGC8-sDcnQQcI2A
+ スキルと経験の市場価値を知り尽くしたエージェントが、「強みを活かした転職」を提案してくれます,http://google.com/url?q=http://inaka-gurashi.hatenablog.com/entry/ai%25E3%2582%25A8%25E3%2583%25B3%25E3%2582%25B8%25E3%2583%258B%25E3%2582%25A2%25E3%2581%25AB%25E3%2581%25AA%25E3%2582%258B%25E3%2581%25AB%25E3%2581%25AF&sa=U&ved=0ahUKEwiZ7PXTu93aAhVDXLwKHRjlDZQQFghFMAU&usg=AOvVaw3K5Ja2IsuyOA28BSpmM0-K
+本来であれば人間がプログラミングを行なって遂行していたタスクを、機械がデータを学んで特定のタスクのみを遂行します,http://google.com/url?q=https://www.codexa.net/how-to-build-artificial-intelligence/&sa=U&ved=0ahUKEwiZ7PXTu93aAhVDXLwKHRjlDZQQFghQMAc&usg=AOvVaw2UNH4MpxGC8-sDcnQQcI2A
+ 本来であれば、機械学習をマスターするのに、それだけの時間と労力が必要となります,http://google.com/url?q=https://www.codexa.net/how-to-build-artificial-intelligence/&sa=U&ved=0ahUKEwiZ7PXTu93aAhVDXLwKHRjlDZQQFghQMAc&usg=AOvVaw2UNH4MpxGC8-sDcnQQcI2A
+ テレビなどで「人口知能」の話題になると、汎用型人工知能と特化型人工知能をごっちゃにして話されることが多く、一般的な消費者に間違った人工知能の印象を与えているように見受けられます,http://google.com/url?q=https://www.codexa.net/how-to-build-artificial-intelligence/&sa=U&ved=0ahUKEwiZ7PXTu93aAhVDXLwKHRjlDZQQFghQMAc&usg=AOvVaw2UNH4MpxGC8-sDcnQQcI2A
+ では、話を人工知能に戻しましょう,http://google.com/url?q=https://www.codexa.net/how-to-build-artificial-intelligence/&sa=U&ved=0ahUKEwiZ7PXTu93aAhVDXLwKHRjlDZQQFghQMAc&usg=AOvVaw2UNH4MpxGC8-sDcnQQcI2A

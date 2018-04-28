@@ -18,6 +18,7 @@ import net.java.sen.SenFactory;
 import net.java.sen.StringTagger;
 import net.java.sen.dictionary.Token;
 
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -46,16 +47,17 @@ public class AnsGetDataUnit {
 	    long startAns = System.currentTimeMillis();
 	    
 		//データ取得先 URL指定
-	    String reqUrl = "https://search.goo.ne.jp/web.jsp?MT=";
+	    String reqUrl = "http://www.google.com/search?q=";
         
-	    String splitSerchWord = SelectWordUtil.getSplitWord(args[0]);
+//	    String splitSerchWord = SelectWordUtil.getSplitWord(args[0]);
+	    String splitSerchWord = args[0];
 	    
-        String reqUrlAll = reqUrl + splitSerchWord + "&mode=0&sbd=goo001&IE=UTF-8&OE=UTF-8";
+        String reqUrlAll = reqUrl + splitSerchWord + "&ie=UTF-8&oe=UTF-8&num=20";
         //学習先のHTMLリスト
         List<String> studyHtmlList = new ArrayList<String>();
         
         long startHtml = System.currentTimeMillis();
-        studyHtmlList = GetNetInfoUtil.getStudyHtmlList(reqUrlAll);
+        studyHtmlList = GetNetInfoUtil.getHtmlListForGoogle(reqUrlAll);
 
 		System.out.println("以下、検索元URL");
 		System.out.println(reqUrlAll);
@@ -100,70 +102,75 @@ public class AnsGetDataUnit {
 		
 		// 回答結果のList格納用
 		List<AnsModelDto> ansModelList = new ArrayList<AnsModelDto>();
-
-		try{
+        try {
             int cntHtmlList = 0;
             Pattern p = Pattern.compile("[。.]+");
 			for(String studyHtml : studyHtmlList) {
-				matcherUrl = pUrl.matcher(studyHtml);
-				if (!matcherUrl.find()) {
-					//URLにアクセス
-				    
-				    long start = System.currentTimeMillis();
-					Document document = Jsoup.connect(studyHtml).get();
-					Elements elementP = document.select("p");
-					long end = System.currentTimeMillis();
-					long interval = end - start;
-					System.out.println(interval + "ミリ秒  Jsop");
-					//ネット情報を分割して配列に
-					
-					long start2 = System.currentTimeMillis();
-					String[] rsltNetInfo = p.split(elementP.text());
-					for (int iCount =0; iCount < rsltNetInfo.length; iCount++) {
-					    // 正規表現でフィルター（文章の前後にスペースを含む行を除く    "^\\x01-\\x7E"で1バイト文字以外を探す）
-					    // 5文字以上、上記以外の文章を対象にする。
-					    if (15 <= rsltNetInfo[iCount].length() && !rsltNetInfo[iCount]
-					            .matches(".*([a-zA-Z0-9]|[^\\x01-\\x7E]).*\\ ([a-zA-Z0-9]|[^\\x01-\\x7E]).*")
-					            && !rsltNetInfo[iCount].matches(".*([a-zA-Z0-9/%\\-_:=?]{10,}).*")
-					            && !rsltNetInfo[iCount].matches(".*「追加する」ボタンを押してください.*")) {
-                            sujoVector = getSujoVector(soseiVecterSakuseiMap, rsltNetInfo[iCount]);
-                            // 振り分け結果を出力
-                            outFuriwakeResult(sujoVector, weightValueMap, gaResultArray
-                                    , rsltNetInfo[iCount], newFileStream, ansModelList, studyHtml);
-					    }
-					}
-					cntHtmlList++;
-					
-	                long end2 = System.currentTimeMillis();
-	                long interval2 = end2 - start2;
-	                System.out.println(interval2 + "ミリ秒  振り分け");
-				}
-				if (maxHtmlListSize <= cntHtmlList) {
-				    break; // 最大検索サイト数以上になったらブレーク
-				}
+			    try{
+    				matcherUrl = pUrl.matcher(studyHtml);
+    				if (!matcherUrl.find()) {
+    					//URLにアクセス
+    				    
+    				    long start = System.currentTimeMillis();
+    					Document document = Jsoup.connect(studyHtml).get();
+    					Elements elementP = document.select("p");
+    					long end = System.currentTimeMillis();
+    					long interval = end - start;
+    					System.out.println(interval + "ミリ秒  Jsop");
+    					//ネット情報を分割して配列に
+    					
+    					long start2 = System.currentTimeMillis();
+    					String[] rsltNetInfo = p.split(elementP.text());
+    					for (int iCount =0; iCount < rsltNetInfo.length; iCount++) {
+    					    // 正規表現でフィルター（文章の前後にスペースを含む行を除く    "^\\x01-\\x7E"で1バイト文字以外を探す）
+    					    // 5文字以上、上記以外の文章を対象にする。
+    					    if (15 <= rsltNetInfo[iCount].length() && !rsltNetInfo[iCount]
+    					            .matches(".*([a-zA-Z0-9]|[^\\x01-\\x7E]).*\\ ([a-zA-Z0-9]|[^\\x01-\\x7E]).*")
+    					            && !rsltNetInfo[iCount].matches(".*([a-zA-Z0-9/%\\-_:=?]{10,}).*")
+    					            && !rsltNetInfo[iCount].matches(".*「追加する」ボタンを押してください.*")) {
+                                sujoVector = getSujoVector(soseiVecterSakuseiMap, rsltNetInfo[iCount]);
+                                // 振り分け結果を出力
+                                outFuriwakeResult(sujoVector, weightValueMap, gaResultArray
+                                        , rsltNetInfo[iCount], newFileStream, ansModelList, studyHtml);
+    					    }
+    					}
+    					cntHtmlList++;
+    					
+    	                long end2 = System.currentTimeMillis();
+    	                long interval2 = end2 - start2;
+    	                System.out.println(interval2 + "ミリ秒  振り分け");
+    				}
+    				if (maxHtmlListSize <= cntHtmlList) {
+    				    break; // 最大検索サイト数以上になったらブレーク
+    				}
+			    } catch (HttpStatusException e){
+		            e.printStackTrace();
+		            System.out.println(e.getMessage());
+//		            throw new HttpStatusException(e.getMessage(), e.getStatusCode(), e.getUrl());
+		        } catch (IOException e){
+		            e.printStackTrace();
+		            System.out.println("1検索 失敗: " + e.getMessage());
+		        } 
 			}
-		} catch (IOException e){
-			e.printStackTrace();
-			System.out.println("ファイル書き込み失敗");
-		} finally {
-			try {
-				// ストリームは必ず finally で close
-				if (newFileStream != null) {
-				    newFileStream.close();
-				    
-		            Collections.sort(ansModelList, new SortAnsModelList());
-					System.out.println("回答抽出完了");
-					
-			        long endAns = System.currentTimeMillis();
-			        long intervalAns = endAns - startAns;
-			        System.out.println(intervalAns + "ミリ秒  Ans");
-					
-					return ansModelList;
-				}
-			} catch (IOException e) {
-			}
-		}
-		
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("全件 失敗: " + e.getMessage());
+        } finally {
+            try {
+                // ストリームは必ず finally で close
+                if (newFileStream != null) {
+                    newFileStream.close();
+                    Collections.sort(ansModelList, new SortAnsModelList());
+                    System.out.println("回答抽出完了");
+                    long endAns = System.currentTimeMillis();
+                    long intervalAns = endAns - startAns;
+                    System.out.println(intervalAns + "ミリ秒  Ans");
+                    return ansModelList;
+                }
+            } catch (IOException e) {
+            }
+        }
+
 		return ansModelList;
 	}
 	
